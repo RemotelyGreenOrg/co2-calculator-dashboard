@@ -1,2 +1,12 @@
-# co2-calculator-dashboard
-Real-time dashboard that displays data from the CO2 calculator API.
+# CO2 Calculator Dashboard
+
+A real-time dashboard that displays CO2 consumption data.
+
+## Local Development
+
+The project runs with Node.js.
+
+```bash
+npm install
+npm run dev
+```
