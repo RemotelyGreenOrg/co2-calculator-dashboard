@@ -1,6 +1,38 @@
 import React from 'react';
 
 const Calculator = () => {
+
+  const [latField, setLatField] = usetState("NaN")
+  const [lonField, setLonField] = usetState("NaN")
+  const [srcField, setSrcField] = usetState("address")
+
+  function geoFindMe() {
+
+    function success(position) {
+      const latitude  = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      // const latField = document.querySelector('#latitude');
+      // const lonField = document.querySelector('#longitude');
+      // const srcField = document.querySelector('#lat-lon-source');
+      // latField.value = latitude;
+      // lonField.value = longitude;
+      // srcField.value = "browser";
+      setLatField(latitude)
+      setLonField(longitude)
+      setSrcField('browser')
+    }
+    // function error() {
+    //   status.textContent = 'Unable to retrieve your location';
+    // }
+    // if(!navigator.geolocation) {
+    //   status.textContent = 'Geolocation is not supported by your browser';
+    // } else {
+    //   status.textContent = 'Locating…';
+    //   navigator.geolocation.getCurrentPosition(success, error);
+    // }
+  }
+
   return (
     <div>
        <section id="create-event">
@@ -42,9 +74,9 @@ const Calculator = () => {
           <div id="autocomplete-container">
             <label htmlFor="participant_location">Your location:</label>
           </div>
-          <input type="hidden" autoComplete="off" id="latitude" name="latitude" value="NaN" />
-          <input type="hidden" autoComplete="off" id="longitude" name="longitude" value="NaN" />
-          <input type="hidden" autoComplete="off" id="lat-lon-source" name="lat-lon-source" value="address" /> 
+          <input type="hidden" autoComplete="off" id="latitude" name="latitude" value={latField} />
+          <input type="hidden" autoComplete="off" id="longitude" name="longitude" value={lonField} />
+          <input type="hidden" autoComplete="off" id="lat-lon-source" name="lat-lon-source" value={srcField} /> 
           <button id="submit-join">Join event</button>
         </form>
       </section>
