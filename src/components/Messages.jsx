@@ -40,7 +40,6 @@ const Messages = () => {
   }
 
   function onWebSocketOpen(event) {
-    console.log("onWebSocketOpen");
     setShowButton(true);
   }
 
@@ -50,11 +49,10 @@ const Messages = () => {
   }
 
   useEffect(() => {
-    let webSocketUrl;
-    if (window.location.hostname === "localhost") webSocketUrl = "ws://localhost:8000";
-    else webSocketUrl = (window.location.protocol === "https:" ? "wss:" : "ws:") + "//" + window.location.host;
+    // FIXME hardcoded URLs 🙀
+    const url = (window.location.protocol === "https:" ? "wss:" : "ws:") + (window.location.hostname === "localhost" ? "//localhost:8000" : "//co2-calculator-api.herokuapp.com");
 
-    const socket = new WebSocket(webSocketUrl);
+    const socket = new WebSocket(url);
     socket.addEventListener("message", onWebSocketMessage);
     socket.addEventListener("close", onWebSocketClose);
     socket.addEventListener("open", onWebSocketOpen);
