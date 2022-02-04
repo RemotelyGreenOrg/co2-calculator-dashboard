@@ -1,16 +1,16 @@
 
 import Calculator from "./components/Calculator"
 import Location from "./components/Location"
+import Messages from "./components/Messages";
 
 function App() {
   return (
     <>
-      <p>Hello world!</p>
-
       <Calculator />
       <Location />
+      <Messages />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
