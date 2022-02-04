@@ -1,6 +1,11 @@
 import React from 'react';
+// useNavigate Hook can be used to move from 'page' to 'page' -- uncomment the line 3 / 8
+// import { useNavigate } from 'react-router-dom'
 
 const Location = () => {
+
+  // const navigate = useNavigate()
+
   return (
     <div>
       <form id="user-details">
