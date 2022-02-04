@@ -1,13 +1,11 @@
-import Messages from "./components/Messages"
-import React from 'react'
+import Messages from "./components/Messages";
 
 function App() {
   return (
     <>
-      <p>Hello world!</p>
       <Messages />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
