@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 // import { useNavigate } from 'react-router-dom' -> uncomment for navigation between pages
-
+import Location from "../components/Location";
 
 const CreateEventForm = () => {
 
@@ -22,12 +22,12 @@ const handleError = (error) => {
 const handleSubmit = async (event) => {
   event.preventDefault()
   const config = {
-    method: 'post',
+    method: 'get',
     url: (window.location.protocol === "https:" ? "https:" : "http:") + (window.location.hostname === "localhost" ? "//localhost:8000" : "//co2-calculator-api.herokuapp.com"),
     data: {
       name: eventName,
       lon: '52',
-      lat: '0'
+      lat: '0' // this needs to be JSON ? 
     }
   }
 
@@ -60,6 +60,10 @@ console.log(eventName)
             placeholder='Your Event Name'
             onChange={handleFormChange}
           /> <br/>
+          </label>
+          <label>
+            Event address:
+            <Location />
           </label>
           <input type='submit' value='submit' id='create-event_submit' />
           {isError ? (
