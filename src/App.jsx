@@ -1,11 +1,14 @@
+import JoinEventForm from "./pages/JoinEventForm";
 import CreateEventForm from "./pages/CreateEventForm";
 // import Messages from "./pages/Messages";
-// import Location from "./components/Location";
 
 function App() {
   return (
     <>
-     <CreateEventForm />
+      <CreateEventForm />
+      <br/>
+      <br/>
+      <JoinEventForm />
     </>
   );
 }
