@@ -39,22 +39,22 @@ const handleSubmit = async (event) => {
 // stores name of event in stateful object
 const handleNameChange = (event) => {
   const textInput = event.target.value
-  setData({
-    ...data,
-    name: textInput
-  })
-}
+    setData({
+      ...data,
+      name: textInput
+    })
+  }
 
-// pass to autoComplete component (Location) - grabs lon & lat when location selected
-const onPlaceSelect = (value) => {
-  const locationLon = value.properties.lon
-  const locationLat = value.properties.lat
-  setData({
-    ...data,
-    lon: locationLon,
-    lat: locationLat
-  })
-}
+  // pass to autoComplete component (Location) - grabs lon & lat when location selected
+  const onPlaceSelect = (value) => {
+    const locationLon = value.properties.lon
+    const locationLat = value.properties.lat
+    setData({
+      ...data,
+      lon: locationLon,
+      lat: locationLat
+    })
+  }
 
   return (
     <section>
