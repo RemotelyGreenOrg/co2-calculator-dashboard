@@ -3,14 +3,14 @@ import React, { useState } from 'react'
 import { buildBackendURL } from '../helpers/api';
 import Location from "../components/Location";
 
-const JoinEventForm = () => {
+const JoinEventForm = ({event_id, hide_event_id}) => {
   const [isError, setIsError] = useState(false)
   const [data, setData] = useState({
     join_mode: '',
     lon: '',
     lat: '',
     active: false,
-    event_id: '',
+    event_id: event_id
   })
 
   const onFormChange = (event) => {
@@ -55,12 +55,13 @@ const JoinEventForm = () => {
     <div> 
       <form onSubmit={handleSubmit}>
         <label>
-          Joinmode:
+          Join mode:
           <select name='join_mode' onChange={onFormChange}>
-            <option value="in_person">In Person</option>
+            <option selected value="in_person">In Person</option>
             <option value="online">Online</option>
           </select>
         </label><br/>
+    {hide_event_id || <>
         <label>
           Event id:
           <input
@@ -69,7 +70,10 @@ const JoinEventForm = () => {
           placeholder='0'
           onChange={onFormChange}
           />
-        </label><br/>
+        </label>
+      <br/>
+      </>
+    }
         <label>
             Your current location:
             <Location placeSelect={onPlaceSelect}/>

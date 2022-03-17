@@ -30,7 +30,7 @@ const CreateEventForm = () => {
     const config = { method: 'post', url, data };
     try {
       const response = await axios(config).catch(handleError)
-      const event_id = 1;
+      const event_id = response.data.id;
       console.log(response)
       setIsError(false)
       navigate(`/event/${event_id}`)

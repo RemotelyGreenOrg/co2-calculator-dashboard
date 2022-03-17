@@ -12,7 +12,7 @@ function App() {
 	<BrowserRouter>
 	  <Routes>
 		  <Route path="/" element={<LandingPage/>}/>
-		  <Route path="/event" element={<EventPage/>}/>
+		  <Route path="/event/:event_id" element={<EventPage/>}/>
 		  <Route path="/create" element={<CreateEventForm/>}/>
 		  <Route path="/join" element={<JoinEventForm/>}/>
 	  </Routes>
