@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import React, { useState } from 'react'
-// import { useNavigate } from 'react-router-dom' -> uncomment for navigation between pages
 import { buildBackendURL } from '../helpers/api';
 import Location from "../components/Location";
 
@@ -15,8 +14,6 @@ const CreateEventForm = () => {
   })
 
   const [isError, setIsError] = useState(false)
-
-  // const navigate = useNavigate() -> uncomment for navigation between pages
 
   const handleError = (error) => {
     if(error.response) {

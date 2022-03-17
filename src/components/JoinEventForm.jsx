@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import { buildBackendURL } from '../helpers/api';
 import Location from "../components/Location";
 
-const JoinEventForm = ({event_id, hide_event_id}) => {
+const JoinEventForm = ({event_id, hide_event_id, on_join}) => {
   const [isError, setIsError] = useState(false)
   const [data, setData] = useState({
-    join_mode: '',
+    join_mode: 'in_person',
     lon: '',
     lat: '',
     active: false,
@@ -27,12 +27,17 @@ const JoinEventForm = ({event_id, hide_event_id}) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const url = buildBackendURL("/participants/");
+    console.log(`data = ${JSON.stringify(data)}`);
     const config = { method: 'post', url, data };
     try {
       const response = await axios(config).catch(handleError)
-      console.log(response)
+      console.log(`BEK response=${response}`)
       setIsError(false)
-      // navigate('/path/next-page-to-show') -> here we can navigate to the next page, upon successful creation of event. 
+      if (response.data){
+        on_join(response.data);
+      }else{
+        console.log(`Participant created: ${response.data}`)
+      }
     } catch(err) {
       console.log(err)
     }
@@ -56,8 +61,8 @@ const JoinEventForm = ({event_id, hide_event_id}) => {
       <form onSubmit={handleSubmit}>
         <label>
           Join mode:
-          <select name='join_mode' onChange={onFormChange}>
-            <option selected value="in_person">In Person</option>
+          <select value="in_person" name='join_mode' onChange={onFormChange}>
+            <option value="in_person">In Person</option>
             <option value="online">Online</option>
           </select>
         </label><br/>
