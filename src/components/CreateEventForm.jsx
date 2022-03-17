@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import React, { useState } from 'react'
 // import { useNavigate } from 'react-router-dom' -> uncomment for navigation between pages
@@ -5,45 +6,47 @@ import { buildBackendURL } from '../helpers/api';
 import Location from "../components/Location";
 
 const CreateEventForm = () => {
+  const navigate = useNavigate();
 
-const [data, setData] = useState({
-  name: '',
-  lon: '',
-  lat: ''
-})
+  const [data, setData] = useState({
+    name: '',
+    lon: '',
+    lat: ''
+  })
 
-const [isError, setIsError] = useState(false)
+  const [isError, setIsError] = useState(false)
 
-// const navigate = useNavigate() -> uncomment for navigation between pages
+  // const navigate = useNavigate() -> uncomment for navigation between pages
 
-const handleError = (error) => {
-  if(error.response) {
-    setIsError(true)
+  const handleError = (error) => {
+    if(error.response) {
+      setIsError(true)
+    }
   }
-}
 
-const handleSubmit = async (event) => {
-  event.preventDefault()
-  const url = buildBackendURL("/events/");
-  const config = { method: 'post', url, data };
-  try {
-    const response = await axios(config).catch(handleError)
-    console.log(response)
-    setIsError(false)
-    // navigate('/path/next-page-to-show') -> here we can navigate to the next page, upon successful creation of event. 
-  } catch(err) {
-    console.log(err)
-  }
-} 
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    const url = buildBackendURL("/events/");
+    const config = { method: 'post', url, data };
+    try {
+      const response = await axios(config).catch(handleError)
+      const event_id = 1;
+      console.log(response)
+      setIsError(false)
+      navigate(`/event/${event_id}`)
+    } catch(err) {
+      console.log(err)
+    }
+  } 
 
-// stores name of event in stateful object
-const handleNameChange = (event) => {
-  const textInput = event.target.value
-    setData({
-      ...data,
-      name: textInput
-    })
-  }
+  // stores name of event in stateful object
+  const handleNameChange = (event) => {
+    const textInput = event.target.value
+      setData({
+        ...data,
+        name: textInput
+      })
+    }
 
   // pass to autoComplete component (Location) - grabs lon & lat when location selected
   const onPlaceSelect = (value) => {
@@ -74,7 +77,7 @@ const handleNameChange = (event) => {
             Event address:
             <Location placeSelect={onPlaceSelect}/>
           </label>
-          <input type='submit' value='submit' id='create-event_submit' />
+          <input type='submit' value='Create' id='create-event_submit' />
           {isError ? (
             <div className="error">
               <p>Error. Please try again</p>
