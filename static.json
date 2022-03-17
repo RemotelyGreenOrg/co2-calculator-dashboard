@@ -1,3 +1,8 @@
 {
-  "root": "./dist"
+  "root": "./dist",
+  "headers": {
+    "/**": {
+      "Access-Control-Allow-Origin": "https://co2-calculator-api.herokuapp.com"
+    }
+  }
 }
