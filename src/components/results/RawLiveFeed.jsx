@@ -1,34 +1,43 @@
-import { buildBackendURL } from '../helpers/api';
+import { useState, useEffect } from "react";
+import { buildBackendURL } from '../../helpers/api';
 
 function RawLiveFeed({event_id, participant_id}){
-
-  function onWebSocketMessage(event) {
-    const data = JSON.parse(event.data);
-
-    if (data.hasOwnProperty("message")) {
-      const time = new Date().toLocaleTimeString();
-      const message = `${time} \t ${data.message}`;
-      setMessages(current => [...current, message]);
-    }
-  }
-
-  function onWebSocketOpen(event) {
-    setShowButton(true);
-  }
-
-  function onWebSocketClose(event) {
-    setShowButton(false);
-    setFormDisabled(true);
-  }
+  const [data, setData] = useState();
 
   useEffect(() => {
-    const url = buildBackendURL("/websocket").replace("http", "ws");
+    const url = buildBackendURL("/").replace("http", "ws");
     const socket = new WebSocket(url);
+
+    function onWebSocketMessage(event) {
+      const data = JSON.parse(event.data);
+      setData(data);
+    }
+
+    function onWebSocketOpen(event) {
+          const data = { event_id, participant_id };
+          console.log("socket.send", data);
+          socket.send(JSON.stringify(data));
+    }
+
+    function onWebSocketClose(event) {
+          console.log("onWebSocketClose", JSON.stringify(socket));
+    }
+
     socket.addEventListener("message", onWebSocketMessage);
     socket.addEventListener("close", onWebSocketClose);
     socket.addEventListener("open", onWebSocketOpen);
-    setWebSocket(socket);
+
+    return () => socket.close();
   }, []);
-  return ;
+  return <>
+    <ul>
+    {data?.entries().forEach(([key, value]) => {
+      <li>
+        <b>{key}</b>
+        {JSON.stringify(value)}
+      </li>
+     })}
+    </ul>
+    </>;
 }
 export default RawLiveFeed;

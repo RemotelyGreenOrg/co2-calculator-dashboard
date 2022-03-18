@@ -46,6 +46,10 @@ function EventPage(params){
         hide_event_id={true}
         on_join={onJoin}/>
     }
+    {participant && <RawLiveFeed
+      event_id={event_id}
+      participant_id={participant.id}
+    />}
     </>)
 }
 
