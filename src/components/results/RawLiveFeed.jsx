@@ -11,6 +11,7 @@ function RawLiveFeed({event_id, participant_id}){
     function onWebSocketMessage(event) {
       const data = JSON.parse(event.data);
       setData(data);
+      console.log("Received data", data);
     }
 
     function onWebSocketOpen(event) {
@@ -27,16 +28,33 @@ function RawLiveFeed({event_id, participant_id}){
     socket.addEventListener("close", onWebSocketClose);
     socket.addEventListener("open", onWebSocketOpen);
 
-    return () => socket.close();
+    return () => {
+        socket.close();
+    }
   }, []);
+
   return <>
     <ul>
-    {data?.entries().forEach(([key, value]) => {
-      <li>
-        <b>{key}</b>
-        {JSON.stringify(value)}
+    {data && Object.entries(data).map(([key, value]) => {
+      return (
+        <li key={key}>
+        <b>{key}</b> {
+          (typeof(value) === 'object') ? (
+            <ul>
+            {Object.entries(value).map(([k, v]) => {
+                return (<li>
+                  <b>{k}</b> {JSON.stringify(v)}
+                </li>);
+              })
+            }
+            </ul>
+          ) : (
+            JSON.stringify(value)
+          )
+        }
       </li>
-     })}
+      )}
+    )}
     </ul>
     </>;
 }
