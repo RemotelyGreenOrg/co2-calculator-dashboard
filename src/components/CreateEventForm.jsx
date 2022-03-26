@@ -32,9 +32,9 @@ const CreateEventForm = () => {
     const url = buildBackendURL("/events/");
     const config = { method: 'post', url, data };
     try {
-      const response = await axios(config).catch(handleError)
-      const event_id = response.data.id;
+      const response = await axios(config).catch(handleError);
       console.log(response)
+      const event_id = response.data.id;
       setIsError(false)
       navigate(`/event/${event_id}`)
     } catch(err) {
@@ -53,8 +53,8 @@ const CreateEventForm = () => {
 
   // pass to autoComplete component (Location) - grabs lon & lat when location selected
   const onPlaceSelect = (value) => {
-    const locationLon = value.properties.lon
-    const locationLat = value.properties.lat
+    const locationLon = value.lon;
+    const locationLat = value.lat;
     setData({
       ...data,
       lon: locationLon,
@@ -77,7 +77,10 @@ const CreateEventForm = () => {
           />
         </Grid>
         <Grid item xs={12}>
-           <GeoapifyAutocomplete label="Event location" required={true} />
+           <GeoapifyAutocomplete
+            onSelect={onPlaceSelect}
+            label="Event location"
+            required />
         </Grid>
         <Grid item xs={12}>
           <Button variant="contained" type='submit' id='create-event_submit' >Create </Button>
