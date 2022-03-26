@@ -5,8 +5,11 @@ import { buildBackendURL } from '../helpers/api';
 import JoinEventForm from "../components/JoinEventForm";
 import RawLiveFeed from "../components/results/RawLiveFeed";
 
-// 1. Connect to event websocket
-// 2. Show "Join event" form
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 
 async function get_event_details(event_id){
     const url = buildBackendURL(`/events/${event_id}`);
@@ -37,19 +40,28 @@ function EventPage(params){
   }, [event_id]);
 
   return (<>
+          <Container component="main" sx={{ mb: 4 }}>
           {eventDetails && <>
-            Event name is {eventDetails.name} taking place at lat: {eventDetails.lat}, lon: {eventDetails.lon}<br/>
+            <Typography py={3} variant="h5">
+            Realtime calculator for: 
+            <b> {eventDetails.name} </b>
+            </Typography>
           </>}
-          {hasJoined ||
-            <JoinEventForm 
-              event_id={event_id} 
-              hide_event_id={true}
-              on_join={onJoin}/>
-          }
-          {participant && <RawLiveFeed
-            event_id={event_id}
-            participant_id={participant.id}
-          />}
+            <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+              {hasJoined ||
+    <Box display="flex" justifyContent="center" >
+                <JoinEventForm 
+                  event_id={event_id} 
+                  hide_event_id={true}
+                  on_join={onJoin}/>
+    </Box>
+              }
+              {participant && <RawLiveFeed
+                event_id={event_id}
+                participant_id={participant.id}
+              />}
+            </Paper>
+          </Container>
     </>)
 }
 

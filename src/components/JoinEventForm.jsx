@@ -66,7 +66,7 @@ const JoinEventForm = ({event_id, hide_event_id, on_join}) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid container spacing={2} alignItems="center">
+      <Grid container maxWidth="md" spacing={2} alignItems="center">
         <Grid item xs={3}>
           <Typography variant="body1">
             Join method*
