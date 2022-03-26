@@ -5,6 +5,7 @@ import { buildBackendURL } from '../helpers/api';
 import Location from "../components/Location";
 import GeoapifyAutocomplete from "./GeoapifyAutocomplete";
 
+import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -62,9 +63,11 @@ const CreateEventForm = () => {
   }
 
   return (
-        <form onSubmit={handleSubmit} className='create-event_form'>
-        <h2>Create an Event</h2>
-      <Grid container spacing={3}>
+    <form onSubmit={handleSubmit} className='create-event_form'>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h4">Create an Event</Typography>
+        </Grid>
         <Grid item xs={12}>
           <TextField
             required
@@ -82,7 +85,6 @@ const CreateEventForm = () => {
         <Grid item xs={12}>
           <Button variant="contained" type='submit' id='create-event_submit' >Create </Button>
         </Grid>
-	  {/*<input type='submit' value='Create' id='create-event_submit' />*/}
         <Grid item xs={12}>
           {isError ? (
             <div className="error">
@@ -93,7 +95,7 @@ const CreateEventForm = () => {
           )}
         </Grid>
       </Grid>
-        </form>
+    </form>
   )
 }
 

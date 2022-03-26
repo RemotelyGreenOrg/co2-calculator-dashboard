@@ -10,10 +10,10 @@ function LandingPage(){
   return (
     <>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography component="h1" variant="h4" align="center">
+          <Typography component="h1" variant="h3" align="center">
             Realtime event calculator
           </Typography>
+        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
     <CreateEventForm/>
     <br/>
     <h3> Or join an existing event </h3>
