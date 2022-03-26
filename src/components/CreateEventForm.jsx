@@ -40,7 +40,7 @@ const CreateEventForm = () => {
     } catch(err) {
       console.log(err)
     }
-  } 
+  }
 
   // stores name of event in stateful object
   const handleNameChange = (event) => {
@@ -66,16 +66,13 @@ const CreateEventForm = () => {
     <form onSubmit={handleSubmit} className='create-event_form'>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h4">Create an Event</Typography>
-        </Grid>
-        <Grid item xs={12}>
           <TextField
             required
             id="eventname"
             name="eventname"
             label="Event Name"
             fullWidth
-            variant="standard"
+            variant="filled"
             onChange={handleNameChange}
           />
         </Grid>

@@ -14,7 +14,7 @@ import {flag} from "country-emoji";
 const GEOAPIFY_API_KEY = "333a59e70c194914af823f45328e4a49";
 
 
-export default function GeoapifyAutocomplete({label, required}) {
+export default function GeoapifyAutocomplete({label, required, onSelect}) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
@@ -47,6 +47,11 @@ export default function GeoapifyAutocomplete({label, required}) {
     [],
   );
 
+  useEffect(() => {
+    if (onSelect && value){
+      onSelect(value);
+    }
+  }, [value]);
   useEffect(() => {
     let active = true;
 
@@ -98,6 +103,7 @@ export default function GeoapifyAutocomplete({label, required}) {
         <TextField {...params}
                    required={required}
                    label={label ?? "Add a location"}
+                   variant="filled"
                    fullWidth />
       )}
       renderOption={(props, option) => {
