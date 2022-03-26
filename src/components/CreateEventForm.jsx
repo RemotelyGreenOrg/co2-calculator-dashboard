@@ -3,6 +3,11 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { buildBackendURL } from '../helpers/api';
 import Location from "../components/Location";
+import GeoapifyAutocomplete from "./GeoapifyAutocomplete";
+
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const CreateEventForm = () => {
   const navigate = useNavigate();
@@ -57,24 +62,28 @@ const CreateEventForm = () => {
   }
 
   return (
-    <section>
-      <div className='create-event_form-container'>
-        <h2>Create an Event</h2>
         <form onSubmit={handleSubmit} className='create-event_form'>
-          <label>
-            Event Name:
-            <input
-            name='name'
-            type='text'
-            placeholder='Your Event Name'
+        <h2>Create an Event</h2>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <TextField
+            required
+            id="eventname"
+            name="eventname"
+            label="Event Name"
+            fullWidth
+            variant="standard"
             onChange={handleNameChange}
-          /> <br/>
-          </label>
-          <label>
-            Event address:
-            <Location placeSelect={onPlaceSelect}/>
-          </label>
-          <input type='submit' value='Create' id='create-event_submit' />
+          />
+        </Grid>
+        <Grid item xs={12}>
+           <GeoapifyAutocomplete label="Event location" required={true} />
+        </Grid>
+        <Grid item xs={12}>
+          <Button variant="contained" type='submit' id='create-event_submit' >Create </Button>
+        </Grid>
+	  {/*<input type='submit' value='Create' id='create-event_submit' />*/}
+        <Grid item xs={12}>
           {isError ? (
             <div className="error">
               <p>Error. Please try again</p>
@@ -82,9 +91,9 @@ const CreateEventForm = () => {
           ) : (
             <></>
           )}
+        </Grid>
+      </Grid>
         </form>
-      </div>
-    </section>
   )
 }
 

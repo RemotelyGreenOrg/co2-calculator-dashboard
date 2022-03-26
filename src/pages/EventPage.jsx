@@ -37,19 +37,19 @@ function EventPage(params){
   }, [event_id]);
 
   return (<>
-    {eventDetails && <>
-      Event name is {eventDetails.name} taking place at lat: {eventDetails.lat}, lon: {eventDetails.lon}<br/>
-    </>}
-    {hasJoined ||
-      <JoinEventForm 
-        event_id={event_id} 
-        hide_event_id={true}
-        on_join={onJoin}/>
-    }
-    {participant && <RawLiveFeed
-      event_id={event_id}
-      participant_id={participant.id}
-    />}
+          {eventDetails && <>
+            Event name is {eventDetails.name} taking place at lat: {eventDetails.lat}, lon: {eventDetails.lon}<br/>
+          </>}
+          {hasJoined ||
+            <JoinEventForm 
+              event_id={event_id} 
+              hide_event_id={true}
+              on_join={onJoin}/>
+          }
+          {participant && <RawLiveFeed
+            event_id={event_id}
+            participant_id={participant.id}
+          />}
     </>)
 }
 
