@@ -67,6 +67,22 @@ const JoinEventForm = ({event_id, hide_event_id, on_join}) => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container maxWidth="md" spacing={2} alignItems="center">
+        {hide_event_id || <Grid item xs={12}>
+              <TextField required
+                    id="event_id"
+                    name="event_id"
+                    label="Event ID"
+                    variant="filled"
+                    fullWidth
+                    onChange={onFormChange}
+              />
+            </Grid>
+        }
+        <Grid item xs={12}>
+        <label>
+            <GeoapifyAutocomplete required label="Where are you joining from?" onSelect={onPlaceSelect}/>
+        </label>
+        </Grid>
         <Grid item xs={3}>
           <Typography variant="body1">
             Join method*
@@ -83,22 +99,6 @@ const JoinEventForm = ({event_id, hide_event_id, on_join}) => {
             <ToggleButton name="join_mode" value="in_person">In person</ToggleButton>
             <ToggleButton name="join_mode" value="online">Online</ToggleButton>
           </ToggleButtonGroup>
-        </Grid>
-        {hide_event_id || <Grid item xs={12}>
-              <TextField required
-                    id="event_id"
-                    name="event_id"
-                    label="Event ID"
-                    variant="filled"
-                    fullWidth
-                    onChange={onFormChange}
-              />
-            </Grid>
-        }
-        <Grid item xs={12}>
-        <label>
-            <GeoapifyAutocomplete required label="Where are you joining from?" onSelect={onPlaceSelect}/>
-        </label>
         </Grid>
         <Grid item xs={12}>
           <Button variant="contained" type='submit' id='create-event_submit' >Join </Button>
