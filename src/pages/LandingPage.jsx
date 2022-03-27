@@ -22,7 +22,7 @@ function LandingPage(){
             Realtime event calculator
           </Typography>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography pb={2} variant="h5">Create an Event</Typography>
+          <Typography pb={2} variant="h5">Create a New Event</Typography>
           <CreateEventForm/>
           <Typography pb={2} variant="h5">Join an Existing Event</Typography>
           <JoinEventForm on_join={onJoin}/>
