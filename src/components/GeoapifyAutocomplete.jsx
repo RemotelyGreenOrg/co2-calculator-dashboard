@@ -1,5 +1,6 @@
 import {useState, useMemo, useEffect} from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -14,7 +15,32 @@ import {flag} from "country-emoji";
 const GEOAPIFY_API_KEY = "333a59e70c194914af823f45328e4a49";
 
 
-export default function GeoapifyAutocomplete({label, required, onSelect}) {
+const get_address = throttle((lat, lon, callback) => {
+        const promise = new Promise((resolve, reject) => {
+          var url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&type=street&lang=en&limit=1&format=json&apiKey=${GEOAPIFY_API_KEY}`;
+
+          fetch(url)
+            .then(response => {
+              // check if the call was successful
+              if (response.ok) {
+                response.json().then(data => resolve(data));
+              } else {
+                response.json().then(data => reject(data));
+              }
+            });
+        });
+
+        promise.then((data) => {
+          callback(data.results[0]);
+        }, (err) => {
+          if (!err.canceled) {
+            console.log(err);
+          }
+        });
+     }, 200);
+
+
+export default function GeoapifyAutocomplete({label, required, onSelect, noOptionsText, disableFindLocationButton}) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
@@ -52,6 +78,7 @@ export default function GeoapifyAutocomplete({label, required, onSelect}) {
       onSelect(value);
     }
   }, [value]);
+
   useEffect(() => {
     let active = true;
 
@@ -81,6 +108,26 @@ export default function GeoapifyAutocomplete({label, required, onSelect}) {
     };
   }, [value, inputValue, query]);
 
+  function grabBrowserLocation(){
+      function success(position) {
+        const latitude  = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        get_address(latitude, longitude, (address) => {
+          setValue(address);
+          setInputValue(address.formatted);
+        });
+      }
+      function error() {
+        console.log('Unable to retrieve your location');
+      }
+      if(!navigator.geolocation) {
+        console.log('Geolocation is not supported by your browser');
+      } else {
+        console.log('Locating…');
+        navigator.geolocation.getCurrentPosition(success, error);
+      }
+  }
+
   return (
     <Autocomplete
       id="geoapify-autocomplete"
@@ -106,6 +153,22 @@ export default function GeoapifyAutocomplete({label, required, onSelect}) {
                    variant="filled"
                    fullWidth />
       )}
+     noOptionsText={
+       <>
+       {noOptionsText || "Enter something"}
+       {disableFindLocationButton ||
+           <>
+           {" or  "}
+         <Button
+           onClick={grabBrowserLocation}
+           variant="outlined"
+           >
+           Find my location
+         </Button>
+           </>
+       }
+       </>
+     }
       renderOption={(props, option) => {
         return (
           <li {...props}>
