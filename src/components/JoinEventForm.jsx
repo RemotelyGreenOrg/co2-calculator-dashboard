@@ -1,7 +1,16 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { buildBackendURL } from '../helpers/api';
-import Location from "../components/Location";
+import GeoapifyAutocomplete from "./GeoapifyAutocomplete";
+
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+
 
 const JoinEventForm = ({event_id, hide_event_id, on_join}) => {
   const [isError, setIsError] = useState(false)
@@ -31,7 +40,6 @@ const JoinEventForm = ({event_id, hide_event_id, on_join}) => {
     const config = { method: 'post', url, data };
     try {
       const response = await axios(config).catch(handleError)
-      console.log(`BEK response=${response}`)
       setIsError(false)
       if (response.data){
         on_join(response.data);
@@ -45,9 +53,9 @@ const JoinEventForm = ({event_id, hide_event_id, on_join}) => {
 
   // pass to autoComplete component (Location) - grabs lon & lat when location selected
   const onPlaceSelect = (value) => {
-    const locationLon = value.properties.lon
-    const locationLat = value.properties.lat
-    console.log(value)
+    const locationLon = value.lon;
+    const locationLat = value.lat;
+    console.log("Selected location:", value);
     setData({
       ...data,
       lon: locationLon,
@@ -57,33 +65,44 @@ const JoinEventForm = ({event_id, hide_event_id, on_join}) => {
   console.log(data)
 
   return (
-    <div> 
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      <Grid container maxWidth="md" spacing={2} alignItems="center">
+        {hide_event_id || <Grid item xs={12}>
+              <TextField required
+                    id="event_id"
+                    name="event_id"
+                    label="Event ID"
+                    variant="filled"
+                    fullWidth
+                    onChange={onFormChange}
+              />
+            </Grid>
+        }
+        <Grid item xs={12}>
         <label>
-          Join mode:
-          <select value="in_person" name='join_mode' onChange={onFormChange}>
-            <option value="in_person">In Person</option>
-            <option value="online">Online</option>
-          </select>
-        </label><br/>
-    {hide_event_id || <>
-        <label>
-          Event id:
-          <input
-          name='event_id'
-          type='text'
-          placeholder='0'
-          onChange={onFormChange}
-          />
+            <GeoapifyAutocomplete required label="Where are you joining from?" onSelect={onPlaceSelect}/>
         </label>
-      <br/>
-      </>
-    }
-        <label>
-            Your current location:
-            <Location placeSelect={onPlaceSelect}/>
-        </label>
-        <input type='submit' value='submit' id='create-event_submit' />
+        </Grid>
+        <Grid item xs={3}>
+          <Typography variant="body1">
+            Join method*
+          </Typography>
+        </Grid>
+        <Grid item xs={9}>
+          <ToggleButtonGroup
+            color="primary"
+            value={data.join_mode}
+            fullWidth
+            exclusive
+            onChange={onFormChange}
+          >
+            <ToggleButton name="join_mode" value="in_person">In person</ToggleButton>
+            <ToggleButton name="join_mode" value="online">Online</ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+        <Grid item xs={12}>
+          <Button variant="contained" type='submit' id='create-event_submit' >Join </Button>
+        </Grid>
           {isError ? (
             <div className="error">
               <p>Error. Please try again</p>
@@ -91,8 +110,8 @@ const JoinEventForm = ({event_id, hide_event_id, on_join}) => {
           ) : (
             <></>
           )}
-      </form>
-    </div>
+      </Grid>
+    </form>
   )
 }
 
