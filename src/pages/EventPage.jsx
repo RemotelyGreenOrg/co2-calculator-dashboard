@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { buildBackendURL } from '../helpers/api';
 import JoinEventForm from "../components/JoinEventForm";
-import RawLiveFeed from "../components/results/RawLiveFeed";
+import {DisplayRawList} from "../components/results/RawLiveFeed";
+import {DrawSimpleBarChart} from "../components/results/SimpleBarChart";
+import ConnectWebSocket from "../components/results/ConnectWebSocket";
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -64,10 +66,20 @@ function EventPage(){
                     on_join={onJoin}/>
                 </Box>
               }
-              {participant && <RawLiveFeed
-                event_id={event_id}
-                participant_id={participant.id}
-              />}
+              {participant &&
+                  <ConnectWebSocket
+                    event_id={event_id}
+                    participant_id={participant.id}
+                    Component={
+                      ({data}) => {
+                        return <>
+                            <DrawSimpleBarChart data={data}/>
+                          {/*<DisplayRawList data={data}/>*/}
+                          </>
+                          }
+                      }
+                    />
+              }
             </Paper>
           </Container>
     </>)
