@@ -1,5 +1,6 @@
-import ConnectWebSocket from './ConnectWebSocket';
 import React from 'react';
+import Skeleton from '@mui/material/Skeleton';
+import ConnectWebSocket from './ConnectWebSocket';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -90,7 +91,10 @@ export function DrawSimpleBarChart({data}){
   };
 
   return (<>
-    <Bar options={options} data={rawData} />
+      {data
+        ? <Bar options={options} data={rawData} />
+        : <Skeleton variant="rectangular" height={600}/>
+      }
     </>
   );
   }
