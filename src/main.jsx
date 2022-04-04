@@ -6,8 +6,10 @@ import App from './App';
 import theme from './theme';
 import ReactGA from 'react-ga';
 
-ReactGA.initialize('G-B9WH7S75Z2');
-ReactGA.pageview(window.location.pathname + window.location.search);
+if (navigator.doNotTrack !== "1") {
+  ReactGA.initialize('G-B9WH7S75Z2');
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}
 
 ReactDOM.render(
   <React.StrictMode>
